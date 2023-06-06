@@ -5,6 +5,7 @@ RUN apt-get update && \
 WORKDIR /usr/src/bevy_simple_collision
 COPY . .
 
+RUN cargo install cargo-watch
 RUN cargo install --path .
 
-CMD ["cargo", "run"]
+CMD ["cargo-watch", "-x", "run"]
