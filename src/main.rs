@@ -17,5 +17,6 @@ fn main() {
         .add_startup_system(setup::create_actors)
         .add_plugins(DefaultPlugins)
         .add_system(get_entity)
+        .add_system(systems::movement::keyboard_input)
         .run();
 }
