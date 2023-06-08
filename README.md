@@ -11,7 +11,7 @@ docker run -v "$PWD":/usr/src/simple_collision simple_collision
 ```
 ## Building
 
-If you're only interested in running the project, target the build stage then run as described [above](#Running), this will update your `target` dir with the newly built debug binary.
+If you're only interested in running the project, target the build stage then run as described [above](#running), this will update your `target` dir with the newly built debug binary.
 
 You can pass different commands to `docker run` to build different binary targets. See the [`cargo build` documentation](https://doc.rust-lang.org/cargo/commands/cargo-build.html) for options.
 
