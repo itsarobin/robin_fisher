@@ -1,15 +1,12 @@
 use bevy::prelude::*;
+use setup::actor_types::Player;
 mod setup;
 mod systems;
 
 fn get_entity(
-    mut query: Query<(Entity, With<setup::actor_types::Player>)>,
-    mut commands: Commands
+    player: Res<Player>
 ) {
-    for player in &mut query {
-        let player_entity = commands.entity(player.0).id();
-        println!("Found Player! {}", player_entity.to_bits());
-    }
+    println!("Found Player! {}", player.0.to_bits());
 }
 
 fn main() {
