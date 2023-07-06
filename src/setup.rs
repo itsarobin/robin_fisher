@@ -8,21 +8,26 @@ pub fn create_actors(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    //TODO: Create a Resource for the player so we don't have to
-    //      query for the player entity every time we want to use it?
-    //cube
     let player_entity = commands.spawn(
         PbrBundle {
             mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
             material: materials.add(Color::rgb(0.8, 0.0, 0.6).into()),
-            transform: Transform::from_xyz(0.0, 0.5, 0.0),
+            transform: Transform::from_xyz(0.0, 0.5, 1.0),
             ..default()
         }
     )
         .id();
+
     commands.insert_resource(
         Player(player_entity)
     );
+
+    commands.spawn(PbrBundle {
+        mesh: meshes.add(shape::Plane::from_size(100.0).into()),
+        material: materials.add(Color::SILVER.into()),
+        ..default()
+    }).add_child(player_entity);
+
     // light
     commands.spawn(
         PointLightBundle {
