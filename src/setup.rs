@@ -1,6 +1,6 @@
 use bevy::{prelude::*, render::render_resource::{TextureDimension, TextureFormat, Extent3d}};
 
-use self::actor_types::Player;
+use self::actor_types::{Player, Camera};
 pub mod actor_types;
 
 pub fn create_actors(
@@ -9,6 +9,14 @@ pub fn create_actors(
     mut images: ResMut<Assets<Image>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
+    let camera_entity =
+        commands.spawn(
+            Camera3dBundle {
+                transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
+                ..default()
+            }
+        ).id();
+
     let player_entity = commands.spawn(
         PbrBundle {
             mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
@@ -16,11 +24,15 @@ pub fn create_actors(
             transform: Transform::from_xyz(0.0, 0.5, 1.0),
             ..default()
         }
-    )
-        .id();
+    ).add_child(camera_entity).id();
 
     commands.insert_resource(
         Player(player_entity)
+    );
+
+    // camera
+    commands.insert_resource(
+        Camera(camera_entity)
     );
 
     commands.spawn(PbrBundle {
@@ -30,7 +42,8 @@ pub fn create_actors(
             ..default()
         }),
         ..default()
-    }).add_child(player_entity);
+    })
+        .add_child(player_entity);
 
     // light
     commands.spawn(
@@ -41,13 +54,6 @@ pub fn create_actors(
                 ..default()
             },
             transform: Transform::from_xyz(4.0, 8.0, 4.0),
-            ..default()
-        }
-    );
-    // camera
-    commands.spawn(
-        Camera3dBundle {
-            transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
             ..default()
         }
     );
