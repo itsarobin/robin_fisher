@@ -53,7 +53,7 @@ pub fn create_actors(
     );
 }
 
-const IMAGE_PIXELS: [u8; 16] = [255, 255, 255, 255, 0, 0, 0, 255, 0, 0, 0, 255, 255, 255, 255, 255];
+const IMAGE_PIXELS: [u8; 16] = [255, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 255, 255];
 
 fn floor_texture() -> Image {
     Image::new_fill(
