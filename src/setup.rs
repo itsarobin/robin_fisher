@@ -12,7 +12,7 @@ pub fn create_actors(
     let camera_entity =
         commands.spawn(
             Camera3dBundle {
-                transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
+                transform: Transform::from_xyz(-5.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
                 ..default()
             }
         ).id();
@@ -21,7 +21,7 @@ pub fn create_actors(
         PbrBundle {
             mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
             material: materials.add(Color::rgb(0.8, 0.0, 0.6).into()),
-            transform: Transform::from_xyz(0.0, 0.5, 1.0),
+            transform: Transform::from_xyz(0.0, 0.5, 0.0),
             ..default()
         }
     ).add_child(camera_entity).id();
