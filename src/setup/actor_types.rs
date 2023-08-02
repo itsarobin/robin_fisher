@@ -1,4 +1,4 @@
-use bevy::prelude::{Resource, Entity};
+use bevy::prelude::{Entity, Resource};
 
 #[derive(Resource)]
 pub struct Player(pub Entity);

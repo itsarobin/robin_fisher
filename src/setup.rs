@@ -1,6 +1,9 @@
-use bevy::{prelude::*, render::render_resource::{TextureDimension, TextureFormat, Extent3d}};
+use bevy::{
+    prelude::*,
+    render::render_resource::{Extent3d, TextureDimension, TextureFormat},
+};
 
-use self::actor_types::{Player, Camera};
+use self::actor_types::{Camera, Player};
 pub mod actor_types;
 
 pub fn create_actors(
@@ -9,54 +12,49 @@ pub fn create_actors(
     mut images: ResMut<Assets<Image>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    let camera_entity =
-        commands.spawn(
-            Camera3dBundle {
-                transform: Transform::from_xyz(-5.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
-                ..default()
-            }
-        ).id();
+    let camera_entity = commands
+        .spawn(Camera3dBundle {
+            transform: Transform::from_xyz(-5.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
+            ..default()
+        })
+        .id();
 
-    let player_entity = commands.spawn(
-        PbrBundle {
+    let player_entity = commands
+        .spawn(PbrBundle {
             mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
             material: materials.add(Color::rgb(0.8, 0.0, 0.6).into()),
             transform: Transform::from_xyz(0.0, 0.5, 0.0),
             ..default()
-        }
-    ).add_child(camera_entity).id();
+        })
+        .add_child(camera_entity)
+        .id();
 
-    commands.insert_resource(
-        Player(player_entity)
-    );
+    commands.insert_resource(Player(player_entity));
 
     // camera
-    commands.insert_resource(
-        Camera(camera_entity)
-    );
+    commands.insert_resource(Camera(camera_entity));
 
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(shape::Plane::from_size(10.0).into()),
-        material: materials.add(StandardMaterial {
-            base_color_texture: Some(images.add(floor_texture())),
+    commands
+        .spawn(PbrBundle {
+            mesh: meshes.add(shape::Plane::from_size(10.0).into()),
+            material: materials.add(StandardMaterial {
+                base_color_texture: Some(images.add(floor_texture())),
+                ..default()
+            }),
             ..default()
-        }),
-        ..default()
-    })
+        })
         .add_child(player_entity);
 
     // light
-    commands.spawn(
-        PointLightBundle {
-            point_light: PointLight {
-                intensity: 1500.0,
-                shadows_enabled: true,
-                ..default()
-            },
-            transform: Transform::from_xyz(4.0, 8.0, 4.0),
+    commands.spawn(PointLightBundle {
+        point_light: PointLight {
+            intensity: 1500.0,
+            shadows_enabled: true,
             ..default()
-        }
-    );
+        },
+        transform: Transform::from_xyz(4.0, 8.0, 4.0),
+        ..default()
+    });
 }
 
 const IMAGE_PIXELS: [u8; 16] = [255, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 255, 255];
